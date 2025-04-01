@@ -7,11 +7,11 @@ public class Mercadaw {
     static Scanner entrada = new Scanner(System.in);
     static Random aleatorio = new Random();
     public static final int TAMANYO = 8;
-    static List<Cliente> clientes;
+    static Set<Cliente> clientes;
 
     public Mercadaw(){
 
-        clientes = new ArrayList<>();
+        clientes = new HashSet<>();
 
     }
 
@@ -41,7 +41,7 @@ public class Mercadaw {
         }
     }
 
-    public void autenticacion(List<Cliente> listaClientes){
+    public void autenticacion(Set<Cliente> listaClientes){
 
         int cont = 0;
 
@@ -85,7 +85,7 @@ public class Mercadaw {
 
     }
 
-    public List<Cliente> getClientes() {
-        return Collections.unmodifiableList(clientes);
+    public Set<Cliente> getClientes() {
+        return Collections.unmodifiableSet(clientes);
     }
 }
