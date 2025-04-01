@@ -48,7 +48,7 @@ public class Cliente {
 
     public void terminarpedido(){
 
-        System.out.println("GRACIAS POR SU PEDIDO. Se lo mandaremos a la dirección " + direccion);
+        System.out.println("GRACIAS POR SU PEDIDO! Se lo mandaremos a la dirección " + direccion);
 
     }
 

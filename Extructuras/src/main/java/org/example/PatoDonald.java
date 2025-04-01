@@ -1,4 +1,4 @@
-package org.example;
+package main.java.org.example;
 
 import java.util.LinkedHashSet;
 import java.util.Scanner;

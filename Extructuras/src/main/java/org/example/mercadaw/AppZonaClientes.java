@@ -3,10 +3,12 @@ package main.java.org.example.mercadaw;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class AppZonaClientes {
 
     static Cliente cliente;
+    static final int INTENTOS = 3;
     static Scanner entrada = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -19,10 +21,58 @@ public class AppZonaClientes {
         mercadaw.imprimirClientes();
         System.out.println();
 
-        mercadaw.autenticacion(mercadaw.getClientes());
+        autenticacion(mercadaw.getClientes());
         System.out.println();
 
         menu();
+
+    }
+
+    public static void autenticacion(Set<Cliente> listaClientes){
+
+        int cont = 0;
+
+        do {
+            System.out.print("Usuario: ");
+            String usuario = entrada.next();
+
+            System.out.print("Contraseña: ");
+            String contra = entrada.next();
+
+
+            boolean encontrado = false;
+
+            for (Cliente c : listaClientes) {
+                if (c.getUsuario().equals(usuario) && c.getContrasena().equals(contra)) {
+
+                    cliente = c;
+                    encontrado = true;
+                    break;
+
+                }
+            }
+
+            if (encontrado) {
+                System.out.println("SE HAN VERIFICADO LOS DATOS CORRECTAMENTE!");
+                System.out.println();
+                AppZonaClientes.iniciarCompra();
+                break;
+
+            }else {
+
+                System.out.println("Algo no coincide o no existe! Vuelve a intentarlo...");
+                cont++;
+
+                if(cont == INTENTOS){
+
+                    System.err.println("ERROR DE AUTENTICACIÓN");
+
+                }
+
+            }
+        } while (cont < INTENTOS);
+
+
 
     }
 
@@ -54,7 +104,6 @@ public class AppZonaClientes {
             System.out.print("\n   Elige un producto: ");
             String eleccion = entrada.next().toUpperCase();
             entrada.nextLine();
-            boolean esta = false;
 
             System.out.println();
             System.out.println("===========================================");
@@ -64,37 +113,31 @@ public class AppZonaClientes {
                 for (Producto producto : Producto.values()){
                     if(Producto.valueOf(eleccion).equals(producto)){
 
-                        esta = true;
+                        //Cambiar y usar el metodo de Cliente.
+                        carrito += producto.getPrecio();
+                        cliente.getPedido().setImporte_total(carrito);
+                        cliente.insertarProducto(producto.name());
 
-                        if (esta){
+                        System.out.print("Has añadido " + producto.name() + " con un precio de " + producto.getPrecio() + "€. Importe del carrito " + carrito +
+                                "€ ¿Quieres añadir más productos a tu carrito de la compra? [S/N]: ");
 
-                            //Cambiar y usar el metodo de Cliente.
-                            carrito += producto.getPrecio();
-                            cliente.getPedido().setImporte_total(carrito);
-                            cliente.insertarProducto(producto.name());
+                        String opcion = entrada.next().toUpperCase();
+                        entrada.nextLine();
 
-                            System.out.print("Has añadido " + producto.name() + " con un precio de " + cliente.getPedido().getImporte_total() + "€. Importe del carrito € " + carrito +
-                                    " ¿Quieres añadir más productos a tu carrito de la compra? [S/N]: ");
-
-                            String opcion = entrada.next().toUpperCase();
-                            entrada.nextLine();
-
-                            switch (opcion){
-                                case "S":
-                                    cliente.getPedido().setImporte_total(carrito);
-                                    break;
-                                case "N":
-                                    cliente.getPedido().resumenCompra();
-                                    llave = false;
-                                    break;
-                                default:
-                                    carrito -= producto.getPrecio();
-                                    cliente.eliminarProducto(producto.name());
-                                    cliente.getPedido().setImporte_total(carrito);
-                                    System.out.println("Opcion no reconocida!  vuelve a intentarlo.");
-                                    System.out.println();
-                            }
-
+                        switch (opcion){
+                            case "S":
+                                cliente.getPedido().setImporte_total(carrito);
+                                break;
+                            case "N":
+                                cliente.getPedido().resumenCompra();
+                                llave = false;
+                                break;
+                            default:
+                                carrito -= producto.getPrecio();
+                                cliente.eliminarProducto(producto.name());
+                                cliente.getPedido().setImporte_total(carrito);
+                                System.out.println("Opcion no reconocida!  vuelve a intentarlo.");
+                                System.out.println();
                         }
                     }
                 }
@@ -107,40 +150,54 @@ public class AppZonaClientes {
 
     public static void menu(){
 
-        System.out.println("===========================================");
-        System.out.println();
+        boolean llave = false;
 
-        System.out.println("¿QUÉ DESEA HACER?");
-        System.out.println();
-        System.out.println("    [1]. Aplicar promo.");
-        System.out.println("    [2]. Mostrar resumen ordenado por uds.");
-        System.out.println("    [3]. Terminar pedido.");
-        System.out.println();
+        do {
+            System.out.println("===========================================");
+            System.out.println();
 
-        System.out.println("===========================================");
+            System.out.println("¿QUÉ DESEA HACER?");
+            System.out.println();
+            System.out.println("    [1]. Aplicar promo.");
+            System.out.println("    [2]. Mostrar resumen ordenado por uds.");
+            System.out.println("    [3]. Terminar pedido.");
 
-        System.out.print("\n   Elige un producto: ");
-        String opcion = entrada.next();
-        entrada.nextLine();
+            System.out.println();
+            System.out.println("===========================================");
 
-        System.out.println();
-        System.out.println("===========================================");
-        System.out.println();
+            System.out.print("\n   Elige un producto: ");
+            String opcion = entrada.next();
+            entrada.nextLine();
 
-        switch (opcion){
-            case "1":
-                break;
-            case "2":
-                break;
-            case "3":
-                cliente.terminarpedido();
-                break;
-            default:
-                System.out.println("Opcion no reconocida!  vuelve a intentarlo.");
-                System.out.println();
-        }
+            System.out.println("\n===========================================\n");
 
+            switch (opcion){
+                case "1":
+                    if (cliente.isPromociones()){
 
+                        System.out.println("YA HAS APLICADO TUS PROMOS");
+                        System.out.println();
 
+                    }else{
+
+                        cliente.getPedido().aplicarPromo3x2();
+                        cliente.getPedido().aplicarPromo10();
+                        cliente.setPromociones(true);
+
+                        cliente.getPedido().resumenCompra();
+
+                    }
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    cliente.terminarpedido();
+                    llave = true;
+                    break;
+                default:
+                    System.out.println("Opcion no reconocida! Vuelve a intentarlo.");
+                    System.out.println();
+            }
+        } while (!llave);
     }
 }
