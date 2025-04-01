@@ -76,12 +76,18 @@ public class Mercadaw {
                 System.out.println("Algo no coincide o no existe! Vuelve a intentarlo...");
                 cont++;
 
+                if(cont == 3){
+
+                    System.err.println("ERROR DE AUTENTICACIÓN");
+                    //System.exit(0);
+
+                }
+
             }
 
         } while (cont < 3);
 
-        System.err.println("ERROR DE AUTENTICACIÓN");
-        System.exit(0);
+
 
     }
 

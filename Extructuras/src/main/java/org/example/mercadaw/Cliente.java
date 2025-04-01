@@ -1,5 +1,7 @@
 package main.java.org.example.mercadaw;
 
+import java.util.Objects;
+
 public class Cliente {
 
     private static final String DIRECCION_DEFF = "calle falsa, 123";
@@ -35,6 +37,18 @@ public class Cliente {
     public void insertarProducto(String producto){
 
         pedido.setPedidoP(producto);
+
+    }
+
+    public void eliminarProducto(String producto){
+
+        pedido.getPedido().remove(Producto.valueOf(producto));
+
+    }
+
+    public void terminarpedido(){
+
+        System.out.println("GRACIAS POR SU PEDIDO. Se lo mandaremos a la dirección " + direccion);
 
     }
 
@@ -76,6 +90,18 @@ public class Cliente {
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Cliente cliente = (Cliente) o;
+        return Objects.equals(usuario, cliente.usuario);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(usuario);
     }
 
     @Override

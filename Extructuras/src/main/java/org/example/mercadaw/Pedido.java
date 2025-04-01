@@ -1,16 +1,37 @@
 package main.java.org.example.mercadaw;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Pedido {
 
-    private HashMap<Producto, Integer> pedido;
+    private static HashMap<Producto, Integer> pedido;
     private double importe_total;
 
     public Pedido(double importe_total){
 
         pedido = new HashMap<>();
         this.importe_total = importe_total;
+
+    }
+
+    public void resumenCompra(){
+
+        System.out.println("RESUMEN DE TU CARRITO DE LA COMPRA:");
+        System.out.println();
+        System.out.println("Productos: ");
+        System.out.println();
+
+
+
+        for (Map.Entry<Producto, Integer> mapaProductos : pedido.entrySet()){
+
+            System.out.println(mapaProductos.getValue() + " " + mapaProductos.getKey());
+
+        }
+
+        System.out.println();
+        System.out.println("IMPORTE TOTAL: " + importe_total + "€");
 
     }
 
