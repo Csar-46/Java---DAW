@@ -1,0 +1,36 @@
+@startuml
+interface ControlRemoto {
+    +sincronizar()
+}
+
+abstract class Dispositivos {
+    - String nombre
+    - boolean estado
+    + Dispositivos(String nombre)
+    + getNombre(): String
+    + setNombre(String nombre)
+    + isEstado(): boolean
+    + setEstado(boolean estado)
+    + encender()
+    + apagar()
+    + mostrarEstado()
+}
+
+class ParlanteInteligente extends Dispositivos {
+    + ParlanteInteligente(String nombre)
+    + encender()
+}
+
+class Televisor extends Dispositivos implements ControlRemoto {
+    + Televisor(String nombre)
+    + encender()
+    + sincronizar()
+}
+
+class AireAcondicionado extends Dispositivos implements ControlRemoto {
+    + AireAcondicionado(String nombre)
+    + encender()
+    + sincronizar()
+}
+
+@enduml

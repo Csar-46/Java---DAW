@@ -1,0 +1,45 @@
+@startuml
+class Casa {
+  - direccion: String
+  - habitaciones: List<Habitacion>
+  - propietario: Propietario
+  + agregarHabitacion(nombre: String, metros: double): void
+  + eliminarHabitacion(nombre: String): void
+  + mostrarHabitaciones(): void
+  + getHabitacionMasGrande(): Habitacion
+  + getDireccion(): String
+  + setDireccion(direccion: String): void
+}
+
+class Habitacion {
+  - nombre: String
+  - metrosCuadrados: double
+  - electrodomestico: Electrodomestico
+  + getMetrosCuadrados(): double
+  + setMetrosCuadrados(metros: double): void
+  + getNombre(): String
+}
+
+class Electrodomestico {
+  - nombre: String
+  - consumo: int
+  + getNombre(): String
+  + setNombre(nombre: String): void
+  + getConsumo(): int
+  + setConsumo(consumo: int): void
+}
+
+class Propietario {
+  - nombre: String
+  - edad: int
+  + getNombre(): String
+  + setNombre(nombre: String): void
+  + getEdad(): int
+  + setEdad(edad: int): void
+}
+
+Casa "1" *-- "0..*" Habitacion : contiene >
+Habitacion "1" *-- "1" Electrodomestico : tiene >
+Casa "1" *-- "1" Propietario : tiene >
+
+@enduml

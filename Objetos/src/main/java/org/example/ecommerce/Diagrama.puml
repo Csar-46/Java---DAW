@@ -1,0 +1,51 @@
+@startuml
+
+' Definimos la clase abstracta MetodoPago
+abstract class MetodoPago {
+    +procesarPago(importe: double)
+}
+
+' Definimos las clases que heredan de MetodoPago
+class Bizum {
+    - telefono: String
+    - pin: String
+    + Bizum(telefono: String)
+    - generarPIN(): String
+    - validarBizum(telefono: String)
+    - pedirPIN(): String
+    + procesarPago(importe: double)
+}
+
+class Paypal {
+    - cuenta: String
+    - saldo: double
+    + Paypal(cuenta: String)
+    - validarPaypal(email: String)
+    + procesarPago(importe: double)
+}
+
+class Tarjeta {
+    - nro_tarjeta: String
+    - tipo: String
+    + Tarjeta(nro_tarjeta: String, tipo: String)
+    - validarTarjeta(num: String, tipo: String)
+    + procesarPago(importe: double)
+}
+
+' Definimos la clase Tienda
+class Tienda {
+    + iniciarPago()
+    + pedir(): String
+    + pedirImporte(): double
+    + realizarPago(metodo: MetodoPago, importe: double)
+}
+
+' Relación de herencia
+MetodoPago <|-- Bizum
+MetodoPago <|-- Paypal
+MetodoPago <|-- Tarjeta
+
+' Relación de asociación
+Tienda --> MetodoPago
+
+@enduml
