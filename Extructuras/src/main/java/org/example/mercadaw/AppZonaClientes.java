@@ -1,15 +1,13 @@
 package main.java.org.example.mercadaw;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
 public class AppZonaClientes {
 
+    static Scanner entrada = new Scanner(System.in);
     static Cliente cliente;
     static final int INTENTOS = 3;
-    static Scanner entrada = new Scanner(System.in);
 
     public static void main(String[] args) {
 
@@ -98,16 +96,7 @@ public class AppZonaClientes {
 
             }
 
-            System.out.println();
-            System.out.println("===========================================");
-
-            System.out.print("\n   Elige un producto: ");
-            String eleccion = entrada.next().toUpperCase();
-            entrada.nextLine();
-
-            System.out.println();
-            System.out.println("===========================================");
-            System.out.println();
+            String eleccion = opcion();
 
             try {
                 for (Producto producto : Producto.values()){
@@ -115,7 +104,9 @@ public class AppZonaClientes {
 
                         //Cambiar y usar el metodo de Cliente.
                         carrito += producto.getPrecio();
-                        cliente.getPedido().setImporte_total(carrito);
+
+                        cliente.importePedido(carrito);
+
                         cliente.insertarProducto(producto.name());
 
                         System.out.print("Has añadido " + producto.name() + " con un precio de " + producto.getPrecio() + "€. Importe del carrito " + carrito +
@@ -133,11 +124,10 @@ public class AppZonaClientes {
                                 llave = false;
                                 break;
                             default:
-                                carrito -= producto.getPrecio();
-                                cliente.eliminarProducto(producto.name());
-                                cliente.getPedido().setImporte_total(carrito);
+
                                 System.out.println("Opcion no reconocida!  vuelve a intentarlo.");
                                 System.out.println();
+                                break;
                         }
                     }
                 }
@@ -162,14 +152,7 @@ public class AppZonaClientes {
             System.out.println("    [2]. Mostrar resumen ordenado por uds.");
             System.out.println("    [3]. Terminar pedido.");
 
-            System.out.println();
-            System.out.println("===========================================");
-
-            System.out.print("\n   Elige un producto: ");
-            String opcion = entrada.next();
-            entrada.nextLine();
-
-            System.out.println("\n===========================================\n");
+            String opcion = opcion();
 
             switch (opcion){
                 case "1":
@@ -183,7 +166,6 @@ public class AppZonaClientes {
                         cliente.getPedido().aplicarPromo3x2();
                         cliente.getPedido().aplicarPromo10();
                         cliente.setPromociones(true);
-
                         cliente.getPedido().resumenCompra();
 
                     }
@@ -197,7 +179,26 @@ public class AppZonaClientes {
                 default:
                     System.out.println("Opcion no reconocida! Vuelve a intentarlo.");
                     System.out.println();
+                    break;
             }
         } while (!llave);
     }
+
+    public static String opcion(){
+
+        System.out.println();
+        System.out.println("===========================================");
+
+        System.out.print("\n   Elige un producto: ");
+        String eleccion = entrada.next().toUpperCase();
+        entrada.nextLine();
+
+        System.out.println();
+        System.out.println("===========================================");
+        System.out.println();
+
+        return eleccion;
+
+    }
+
 }

@@ -5,9 +5,9 @@ import java.util.Map;
 
 public class Pedido {
 
-    private static HashMap<Producto, Integer> pedido;
-
     private final double DESCUENTO = 0.10;
+
+    private HashMap<Producto, Integer> pedido;
     private double importe_total;
 
     public Pedido(double importe_total){
@@ -40,12 +40,13 @@ public class Pedido {
 
     public void aplicarPromo3x2(){
 
+        importe_total = 0;
+
         for (Map.Entry<Producto, Integer> mapaProductos : pedido.entrySet()){
 
             if((mapaProductos.getValue() % 3) == 0){
 
-                //Hacer lo del contador con multiplos de 3 y volver a calcular el importe total.(do/while)
-                importe_total -= mapaProductos.getKey().getPrecio();
+                importe_total += ((mapaProductos.getValue() / 3) * 2) * (mapaProductos.getKey().getPrecio());
 
             }
         }
@@ -54,7 +55,6 @@ public class Pedido {
     public void aplicarPromo10(){
 
         importe_total -= importe_total*DESCUENTO;
-        System.out.println(importe_total);
 
     }
 
