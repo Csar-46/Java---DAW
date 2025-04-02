@@ -171,6 +171,7 @@ public class AppZonaClientes {
                     }
                     break;
                 case "2":
+                    cliente.getPedido().resumenOrdenado();
                     break;
                 case "3":
                     cliente.terminarpedido();

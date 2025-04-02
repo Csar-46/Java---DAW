@@ -1,18 +1,19 @@
 package main.java.org.example.mercadaw;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Pedido {
 
     private final double DESCUENTO = 0.10;
 
     private HashMap<Producto, Integer> pedido;
+    private List<Integer> cantidades;
     private double importe_total;
 
     public Pedido(double importe_total){
 
         pedido = new HashMap<>();
+        cantidades = new ArrayList<>();
         this.importe_total = importe_total;
 
     }
@@ -24,11 +25,31 @@ public class Pedido {
         System.out.println("Productos: ");
         System.out.println();
 
-
-
         for (Map.Entry<Producto, Integer> mapaProductos : pedido.entrySet()){
 
             System.out.println(mapaProductos.getValue() + " " + mapaProductos.getKey() + " " + mapaProductos.getKey().getPrecio());
+
+        }
+
+        System.out.println();
+        System.out.println("IMPORTE TOTAL: " + importe_total + "€");
+        System.out.println();
+
+    }
+
+    public void resumenOrdenado(){
+
+        System.out.println("RESUMEN DE TU CARRITO DE LA COMPRA:");
+        System.out.println();
+        System.out.println("Productos ordenados por uds: ");
+        System.out.println();
+
+        List<Map.Entry<Producto, Integer>> mapaOrdenado = new ArrayList<>(pedido.entrySet());
+        mapaOrdenado.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+
+        for (Map.Entry<Producto,Integer> mapita : mapaOrdenado){
+
+            System.out.println(mapita.getValue() + " " + mapita.getKey() + " " + mapita.getKey().getPrecio());
 
         }
 
