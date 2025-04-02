@@ -1,5 +1,6 @@
 package main.java.org.example.mercadaw;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class Cliente {
@@ -42,7 +43,28 @@ public class Cliente {
 
     public void eliminarProducto(String producto){
 
-        pedido.getPedido().remove(Producto.valueOf(producto));
+        try {
+            pedido.getPedido().put(Producto.valueOf(producto), pedido.getPedido().getOrDefault(Producto.valueOf(producto), 0) - 1);
+            //Quiero comprobar si la cantidad en la lista es 0 para eliminar el producto de la lista.
+            for (Map.Entry<Producto,Integer> mapita : pedido.getPedido().entrySet()){
+
+               if (mapita.getValue() == 0){
+                   pedido.getPedido().remove(Producto.valueOf(producto));
+               }
+
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ese producto no esta en tu carrito :c. Vuelve a intentarlo...");
+        }
+
+        if(pedido.getPedido().isEmpty()){
+
+            System.out.println("Has vaciado tu carrito de la compra! Cerrando la sesión ...");
+            System.exit(0);
+
+        }
+
+        this.getPedido().setImporte_total(Producto.valueOf(producto).getPrecio());
 
     }
 

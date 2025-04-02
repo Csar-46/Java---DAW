@@ -177,7 +177,6 @@ public class AppZonaClientes {
                 case "3":
                     System.out.println();
                     cliente.getPedido().resumenCompra();
-                    System.out.println();
                     
                     String producto = opcion();
                     cliente.eliminarProducto(producto);
