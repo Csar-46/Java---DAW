@@ -150,7 +150,8 @@ public class AppZonaClientes {
             System.out.println();
             System.out.println("    [1]. Aplicar promo.");
             System.out.println("    [2]. Mostrar resumen ordenado por uds.");
-            System.out.println("    [3]. Terminar pedido.");
+            System.out.println("    [3]. Eliminar producto.");
+            System.out.println("    [X]. Terminar pedido.");
 
             String opcion = opcion();
 
@@ -174,6 +175,14 @@ public class AppZonaClientes {
                     cliente.getPedido().resumenOrdenado();
                     break;
                 case "3":
+                    System.out.println();
+                    cliente.getPedido().resumenCompra();
+                    System.out.println();
+                    
+                    String producto = opcion();
+                    cliente.eliminarProducto(producto);
+                    break;
+                case "X":
                     cliente.terminarpedido();
                     llave = true;
                     break;

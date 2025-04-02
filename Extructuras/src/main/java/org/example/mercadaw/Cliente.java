@@ -22,15 +22,15 @@ public class Cliente {
 
     }
 
-    public void importePedido(double carrito){
-
-        this.getPedido().setImporte_total(carrito);
-
-    }
-
     public void crearPedido(){
 
         setPedidoC(new Pedido(0.0));
+
+    }
+
+    public void importePedido(double carrito){
+
+        this.getPedido().setImporte_total(carrito);
 
     }
 
