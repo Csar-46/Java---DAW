@@ -4,7 +4,6 @@ import java.util.*;
 
 public class Mercadaw {
 
-    static Scanner entrada = new Scanner(System.in);
     static Random aleatorio = new Random();
     static final int TAMANYO = 8;
     static Set<Cliente> clientes;
@@ -18,17 +17,18 @@ public class Mercadaw {
 
     public void generarClientes(){
 
-        String usuario = "";
-        String contrasenya = "";
+        //Se usa "StringBuilder" ya que son cadenas de texto que se van a modificar constantemente.
+        StringBuilder usuario = new StringBuilder();
+        StringBuilder contrasenya = new StringBuilder();
 
         for (int i = 0; i < TAMANYO; i++) {
 
-            usuario += CARACTERES.charAt(aleatorio.nextInt(CARACTERES.length()));
-            contrasenya += CARACTERES.charAt(aleatorio.nextInt(CARACTERES.length()));
+            usuario.append(CARACTERES.charAt(aleatorio.nextInt(CARACTERES.length())));
+            contrasenya.append(CARACTERES.charAt(aleatorio.nextInt(CARACTERES.length())));
 
         }
 
-        clientes.add(new Cliente(usuario, contrasenya));
+        clientes.add(new Cliente(usuario.toString(), contrasenya.toString()));
 
     }
 
