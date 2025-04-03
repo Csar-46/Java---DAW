@@ -41,36 +41,68 @@ public class Cliente {
 
     }
 
-    public void eliminarProducto(String producto){
+    public void eliminarProducto(String producto) {
 
         try {
+
             pedido.getPedido().put(Producto.valueOf(producto), pedido.getPedido().getOrDefault(Producto.valueOf(producto), 0) - 1);
             //Quiero comprobar si la cantidad en la lista es 0 para eliminar el producto de la lista.
-            for (Map.Entry<Producto,Integer> mapita : pedido.getPedido().entrySet()){
+            for (Map.Entry<Producto, Integer> mapita : pedido.getPedido().entrySet()) {
 
-               if (mapita.getValue() == 0){
-                   pedido.getPedido().remove(Producto.valueOf(producto));
-               }
+                double total = pedido.getImporte_total();
+                double productoEliminado = mapita.getKey().getPrecio();
+                total -= productoEliminado;
+                pedido.setImporte_total(total);
 
+
+                if (mapita.getValue() == 0) {
+                    pedido.getPedido().remove(Producto.valueOf(producto));
+                }
             }
         } catch (IllegalArgumentException e) {
             System.out.println("Ese producto no esta en tu carrito :c. Vuelve a intentarlo...");
         }
 
-        if(pedido.getPedido().isEmpty()){
+        if (pedido.getPedido().isEmpty()) {
 
-            System.out.println("Has vaciado tu carrito de la compra! Cerrando la sesión ...");
-            System.exit(0);
+            terminarpedido();
+            System.out.println();
 
         }
 
-        this.getPedido().setImporte_total(Producto.valueOf(producto).getPrecio());
+        if(isPromociones()){
+
+            comprobarPromo(producto);
+
+        }
+
+    }
+
+    public void comprobarPromo(String producto){
+
+        double carrito = 0;
+        pedido.setImporte_total(0);
+
+        for (Map.Entry<Producto, Integer> mapita : pedido.getPedido().entrySet()){
+            if(Producto.valueOf(producto).equals(mapita.getKey())) {
+                carrito += mapita.getKey().getPrecio()* mapita.getValue();
+            }
+        }
+
+        importePedido(carrito);
+        pedido.aplicarPromo3x2();
+        pedido.aplicarPromo10();
 
     }
 
     public void terminarpedido(){
 
-        System.out.println("GRACIAS POR SU PEDIDO! Se lo mandaremos a la dirección " + direccion);
+        if (!pedido.getPedido().isEmpty()) {
+            System.out.println("GRACIAS POR SU PEDIDO! Se lo mandaremos a la dirección " + direccion);
+        } else {
+            System.out.println("Has vaciado tu carro de la compra! Cerrand la sesión ... :C");
+            System.exit(0);
+        }
 
     }
 

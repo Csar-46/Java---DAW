@@ -61,14 +61,12 @@ public class Pedido {
 
     public void aplicarPromo3x2(){
 
-        for (Map.Entry<Producto, Integer> mapaProductos : pedido.entrySet()){
+        importe_total = 0;
 
-            //Si divido el Value / 3 le resto el resultado al precio.
-            if((mapaProductos.getValue() % 3) == 0){
+        for (Map.Entry<Producto,Integer> mapita : pedido.entrySet()) {
 
+            importe_total += ((mapita.getValue()) - (mapita.getValue()/3)) * mapita.getKey().getPrecio();
 
-
-            }
         }
     }
 

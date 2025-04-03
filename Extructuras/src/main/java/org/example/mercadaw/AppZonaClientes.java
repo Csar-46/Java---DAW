@@ -101,8 +101,7 @@ public class AppZonaClientes {
             try {
                 for (Producto producto : Producto.values()){
                     if(Producto.valueOf(eleccion).equals(producto)){
-
-                        //Cambiar y usar el metodo de Cliente.
+                        
                         carrito += producto.getPrecio();
 
                         cliente.importePedido(carrito);
