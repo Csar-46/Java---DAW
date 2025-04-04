@@ -293,4 +293,4 @@ public class AppZonaClientes {
 ## Entrega
 
 - [x] **Código Fuente**: [Github](https://github.com/Csar-46/Java---DAW/tree/main/Extructuras/src/main/java/org/example/mercadaw)
-- [x] **Vídeo Demo**: [Github](vid/unknown_2025.04.04-11.48.mp4)
+- [x] **Vídeo Demo**: [YouTube](https://www.youtube.com/watch?v=kt-HsVqVCco)
