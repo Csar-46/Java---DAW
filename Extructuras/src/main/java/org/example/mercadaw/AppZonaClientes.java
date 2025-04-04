@@ -6,11 +6,16 @@ import java.util.Set;
 public class AppZonaClientes {
 
     static Scanner entrada = new Scanner(System.in);
+
+    //Cliente sobre el que vamos a trabajar
     static Cliente cliente;
+
+    //Variable que controla la cantidad de intentos de inicio de secion maximos.
     static final int INTENTOS = 3;
 
     public static void main(String[] args) {
 
+        //Declaramos, generamos e imprimimos los clientes
         Mercadaw mercadaw = new Mercadaw();
 
         mercadaw.generarClientes();
@@ -19,9 +24,11 @@ public class AppZonaClientes {
         mercadaw.imprimirClientes();
         System.out.println();
 
+        //Comprobamos sus credenciales
         autenticacion(mercadaw.getClientes());
         System.out.println();
 
+        //Comenzamos con la compra.
         menu();
 
     }
@@ -31,6 +38,7 @@ public class AppZonaClientes {
         int cont = 0;
 
         do {
+            //Pedimos usuario y contraseña
             System.out.print("Usuario: ");
             String usuario = entrada.next();
 
@@ -40,7 +48,10 @@ public class AppZonaClientes {
 
             boolean encontrado = false;
 
+            //Buscamos el cliente en la lista
             for (Cliente c : listaClientes) {
+
+                //Si lo encontramos, nos guardamos el cliente y salimos del bucle.
                 if (c.getUsuario().equals(usuario) && c.getContrasena().equals(contra)) {
 
                     cliente = c;
@@ -50,23 +61,26 @@ public class AppZonaClientes {
                 }
             }
 
+            //En caso de haberlo encontrado imprimimos un mensaje e iniciamos la compra.
             if (encontrado) {
                 System.out.println("SE HAN VERIFICADO LOS DATOS CORRECTAMENTE!");
                 System.out.println();
                 AppZonaClientes.iniciarCompra();
                 break;
 
+            //En caso de no haberlo encontrado, sumamos 1 al contador y repetimos.
             }else {
 
                 System.out.println("Algo no coincide o no existe! Vuelve a intentarlo...");
                 cont++;
 
+                //Cuando llegamos al numero maximo de intentos, salimos del programa.
                 if(cont == INTENTOS){
 
                     System.err.println("ERROR DE AUTENTICACIÓN");
+                    System.exit(0);
 
                 }
-
             }
         } while (cont < INTENTOS);
 
@@ -76,6 +90,7 @@ public class AppZonaClientes {
 
     public static void iniciarCompra (){
 
+        //Creamos el pedido e imprimimos la lista de productos.
         cliente.crearPedido();
         imprimirProductos();
 
@@ -86,6 +101,7 @@ public class AppZonaClientes {
         double carrito = 0;
         boolean llave = true;
 
+        //Imprimimos la lista de pruductos y precios.
         System.out.println("BIENVENID@ " + cliente.getUsuario());
         do {
             System.out.println("Añade productos a tu lista de la compra...");
@@ -96,18 +112,20 @@ public class AppZonaClientes {
 
             }
 
+            //Elegimos una opcion.
             String eleccion = opcion();
 
+            //Con la opcion se recorre la lista de productos y en caso de encontrarlo se calsula el precio de la cesta.
             try {
                 for (Producto producto : Producto.values()){
                     if(Producto.valueOf(eleccion).equals(producto)){
                         
                         carrito += producto.getPrecio();
-
                         cliente.importePedido(carrito);
 
                         cliente.insertarProducto(producto.name());
 
+                        //Imprimimos el total y preguntamos que queremos hacer.
                         System.out.print("Has añadido " + producto.name() + " con un precio de " + producto.getPrecio() + "€. Importe del carrito " + carrito +
                                 "€ ¿Quieres añadir más productos a tu carrito de la compra? [S/N]: ");
 
@@ -115,9 +133,11 @@ public class AppZonaClientes {
                         entrada.nextLine();
 
                         switch (opcion){
+                            //Si queremos comprar mas productos actualizamos el carrito y repetimos el bucle
                             case "S":
                                 cliente.getPedido().setImporte_total(carrito);
                                 break;
+                            //Si queremos terminar el pedido cambiamos nuestro booleano , mostramos el resumen y salimos del bucle
                             case "N":
                                 cliente.getPedido().resumenCompra();
                                 llave = false;
@@ -130,6 +150,7 @@ public class AppZonaClientes {
                         }
                     }
                 }
+            //Con esto controlamos que al introducir un producto que no esta en la lista el programa no explota.
             } catch (IllegalArgumentException e) {
                 System.out.println("ERROR, EL PRODUCTO INDICADO NO EXISTE!! Porfavor, vuelve a intentarlo.");
                 System.out.println();
@@ -141,6 +162,7 @@ public class AppZonaClientes {
 
         boolean llave = false;
 
+        //Imprimimos las opciones
         do {
             System.out.println("===========================================");
             System.out.println();
@@ -156,11 +178,13 @@ public class AppZonaClientes {
 
             switch (opcion){
                 case "1":
+                    //Si las promociones ya se ha aplicado no hace nada.
                     if (cliente.isPromociones()){
 
                         System.out.println("YA HAS APLICADO TUS PROMOS");
                         System.out.println();
 
+                    //Si no, las aplicamos y mostramos el nuevo precio
                     }else{
 
                         cliente.getPedido().aplicarPromo3x2();
@@ -170,16 +194,22 @@ public class AppZonaClientes {
 
                     }
                     break;
+                //Con esta opcion se muestran los productos ordenados por unidades
                 case "2":
                     cliente.getPedido().resumenOrdenado();
                     break;
+                //Con esta opcion se pueden eliminar oproductos
                 case "3":
                     System.out.println();
+
+                    //Mostramos los productos del pedido
                     cliente.getPedido().resumenCompra();
-                    
+
+                    //Guardamos un producto y lo eliminamos.
                     String producto = opcion();
                     cliente.eliminarProducto(producto);
                     break;
+                //Por ultimo salimos del programa.
                 case "X":
                     cliente.terminarpedido();
                     llave = true;
@@ -194,6 +224,7 @@ public class AppZonaClientes {
 
     public static String opcion(){
 
+        //Metodo para escoger
         System.out.println();
         System.out.println("===========================================");
 
@@ -206,7 +237,5 @@ public class AppZonaClientes {
         System.out.println();
 
         return eleccion;
-
     }
-
 }
