@@ -5,6 +5,7 @@ import java.util.Objects;
 
 public class Cliente {
 
+    //Definimos una direccion predeterminada
     private static final String DIRECCION_DEFF = "calle falsa, 123";
 
     private String usuario;
@@ -23,46 +24,62 @@ public class Cliente {
 
     }
 
+    //Creamos el pedido del usuario
     public void crearPedido(){
 
         setPedidoC(new Pedido(0.0));
 
     }
 
+    //Actualizamos el total del carrito
     public void importePedido(double carrito){
 
         this.getPedido().setImporte_total(carrito);
 
     }
 
+    //Guardamos el producto en la lista de productos
     public void insertarProducto(String producto){
 
+        //Le pasamos a la clase Producto nuestro producto para guardarlo en su mapa.
         pedido.setPedidoP(producto);
 
     }
 
+    //Hemos llegado al metodo loco.
     public void eliminarProducto(String producto) {
 
         try {
 
-            pedido.getPedido().put(Producto.valueOf(producto), pedido.getPedido().getOrDefault(Producto.valueOf(producto), 0) - 1);
-            //Quiero comprobar si la cantidad en la lista es 0 para eliminar el producto de la lista.
+            //Con esto Recorremos la lista de prroductos
             for (Map.Entry<Producto, Integer> mapita : pedido.getPedido().entrySet()) {
 
-                double total = pedido.getImporte_total();
-                double productoEliminado = mapita.getKey().getPrecio();
-                total -= productoEliminado;
-                pedido.setImporte_total(total);
+                //En caso de encontrar el producto indicado
+                if (mapita.getKey().equals(Producto.valueOf(producto))) {
 
+                    //Quiero comprobar si la cantidad en la lista es 0 para eliminar el producto de la lista, si no lo es, le resto 1 y lo borro.
+                    pedido.getPedido().put(Producto.valueOf(producto), pedido.getPedido().getOrDefault(Producto.valueOf(producto), 0) - 1);
 
-                if (mapita.getValue() == 0) {
-                    pedido.getPedido().remove(Producto.valueOf(producto));
+                    //Guardamos el total en una variable para recalcularlo
+                    double total = pedido.getImporte_total();
+
+                    //Guardamos el precio del producto que vamos a elminar para restarlo a la cesta
+                    double productoEliminado = mapita.getKey().getPrecio();
+                    total -= productoEliminado;
+                    pedido.setImporte_total(total);
+
+                    //Si la cantidad es 0 eliminamos el producto de la lista.
+                    if (mapita.getValue() == 0) {
+                        pedido.getPedido().remove(Producto.valueOf(producto));
+                    }
+
                 }
             }
         } catch (IllegalArgumentException e) {
             System.out.println("Ese producto no esta en tu carrito :c. Vuelve a intentarlo...");
         }
 
+        //En caso de que se vacie la lista por completo cancelamos la compra
         if (pedido.getPedido().isEmpty()) {
 
             terminarpedido();
@@ -70,8 +87,10 @@ public class Cliente {
 
         }
 
+        //Comprobamos si el pedido ha tenido promociones o no.
         if(isPromociones()){
 
+            //Si no ha tenido entramos a este metodo
             comprobarPromo(producto);
 
         }
@@ -80,22 +99,26 @@ public class Cliente {
 
     public void comprobarPromo(String producto){
 
+        //Recalculamos el precio sin promociones
         double carrito = 0;
         pedido.setImporte_total(0);
 
         for (Map.Entry<Producto, Integer> mapita : pedido.getPedido().entrySet()){
             if(Producto.valueOf(producto).equals(mapita.getKey())) {
-                carrito += mapita.getKey().getPrecio()* mapita.getValue();
+                carrito += mapita.getKey().getPrecio() * mapita.getValue();
             }
         }
 
+        //Volvemos a aplicarlas sobre las nuevas cantidades.
         importePedido(carrito);
         pedido.aplicarPromo3x2();
         pedido.aplicarPromo10();
 
     }
 
+    //Despedimos el programa con este metodo.
     public void terminarpedido(){
+
 
         if (!pedido.getPedido().isEmpty()) {
             System.out.println("GRACIAS POR SU PEDIDO! Se lo mandaremos a la dirección " + direccion);

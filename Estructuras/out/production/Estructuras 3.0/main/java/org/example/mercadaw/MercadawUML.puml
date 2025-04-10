@@ -1,0 +1,77 @@
+@startuml
+
+class Mercadaw {
+    - static Random aleatorio
+    - static final int TAMANYO
+    - static Set<Cliente> clientes
+    - static String CARACTERES
+    + Mercadaw()
+    + void generarClientes()
+    + void imprimirClientes()
+    + Set<Cliente> getClientes()
+}
+
+class Cliente {
+    - static final String DIRECCION_DEFF
+    - String usuario
+    - String contrasena
+    - String direccion
+    - Pedido pedido
+    - boolean promociones
+    + Cliente(String, String)
+    + void crearPedido()
+    + void importePedido(double)
+    + void insertarProducto(String)
+    + void eliminarProducto(String)
+    + void comprobarPromo(String)
+    + void terminarpedido()
+    + String getUsuario()
+    + void setUsuario(String)
+    + boolean isPromociones()
+    + void setPromociones(boolean)
+    + Pedido getPedido()
+    + void setPedidoC(Pedido)
+    + String getDireccion()
+    + void setDireccion(String)
+    + String getContrasena()
+    + void setContrasena(String)
+    + boolean equals(Object)
+    + int hashCode()
+    + String toString()
+}
+
+class Pedido {
+    - final double DESCUENTO
+    - HashMap<Producto, Integer> pedido
+    - double importe_total
+    + Pedido(double)
+    + void resumenCompra()
+    + void resumenOrdenado()
+    + void aplicarPromo3x2()
+    + void aplicarPromo10()
+    + HashMap<Producto, Integer> getPedido()
+    + void setPedidoP(String)
+    + double getImporte_total()
+    + void setImporte_total(double)
+}
+
+enum Producto {
+    + MANZANA
+    + PERAS
+    + PAN
+    + ARROZ
+    + POLLO
+    + LECHE
+    + ACEITE
+    + HUEVOS
+    + TOMATES
+    + PASTA
+    - double precio
+    + double getPrecio()
+}
+
+Mercadaw o-- Cliente
+Cliente o-- Pedido
+
+
+@enduml
