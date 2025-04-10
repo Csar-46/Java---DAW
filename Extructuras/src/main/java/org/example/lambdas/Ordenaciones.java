@@ -23,5 +23,4 @@ public class Ordenaciones {
         System.out.println(listaProfes);
 
     }
-
 }
