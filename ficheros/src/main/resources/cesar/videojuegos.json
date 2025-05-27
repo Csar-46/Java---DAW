@@ -1,0 +1,45 @@
+[
+  {
+    "nombre": "Halo",
+    "plataforma": "PS4",
+    "precio": 45.0,
+    "disponible": false,
+    "generos": [
+      "Accion",
+      "Aventura",
+      "Misterio"
+    ]
+  },
+  {
+    "nombre": "Smite",
+    "plataforma": "PC",
+    "precio": 12.0,
+    "disponible": true,
+    "generos": [
+      "Competitivo",
+      "Multijugador",
+      "MMO"
+    ]
+  },
+  {
+    "nombre": "REPO",
+    "plataforma": "PC",
+    "precio": 15.0,
+    "disponible": true,
+    "generos": [
+      "Misterio",
+      "Exploracion",
+      "Terror"
+    ]
+  },
+  {
+    "nombre": "Rocket League",
+    "plataforma": "PS5",
+    "precio": 20.0,
+    "disponible": true,
+    "generos": [
+      "Carreras",
+      "Competitivo"
+    ]
+  }
+]
